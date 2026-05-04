@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 async function connectDB() {
   try {
+    const mongo = process.env.MONGO_URI;
     await mongoose.connect(
-      "mongodb+srv://hoanggf310_db_user:XidPG3es7la92sZ2@cluster0.ljj3hjz.mongodb.net/bike?appName=Cluster0"
+      mongo
     );
     console.log("MongoDB Atlas connected");
+    
+
+    
   } catch (error) {
     console.log("ErrorDB:", error);
   }
