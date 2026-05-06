@@ -58,7 +58,7 @@ const ProductDetail = () => {
               
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-bold text-red-600">
-                  {product.price}₫
+                  {product.price.toLocaleString()}₫
                 </span>
                 {product.oldPrice && (
                   <span className="text-gray-400 line-through text-lg">

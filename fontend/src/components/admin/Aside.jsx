@@ -1,8 +1,12 @@
 import React from 'react'
 import MenuItem from './MenuItem'
 import { HiCpuChip, HiChartPie, HiComputerDesktop, HiOutlineCog6Tooth } from "react-icons/hi2";
+import { useNavigate } from 'react-router-dom';
 
 function Aside() {
+
+  const navigate = useNavigate()
+
   return (
     <aside className="px-5 border-r hidden md:block">
         <div className="w-64 p-8 text-2xl font-bold">HHAdmin</div>
@@ -12,10 +16,10 @@ function Aside() {
             <ul>
               {/* Menu 1 */}
               <MenuItem title="Bảng điều khiển" icon={<HiComputerDesktop />}>
-                <li className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center">Quản lý sản phẩm</li>
-                <li className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center">Quản lý danh mục</li>
-                <li className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center">Quản lý đơn hàng</li>
-                <li className="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center">Quản lý người dùng</li>
+                <li className="w-full px-4 py-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-san-pham')}>Quản lý sản phẩm</li>
+                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-danh-muc')}>Quản lý danh mục</li>
+                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-don-hang')}>Quản lý đơn hàng</li>
+                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-nguoi-dung')}>Quản lý người dùng</li>
               </MenuItem>
 
               {/* Menu 2 - Cái này sẽ hoạt động độc lập hoàn toàn */}
@@ -25,21 +29,11 @@ function Aside() {
               </MenuItem>
 
               <MenuItem title="Thống kê" icon={<HiChartPie />}>
-                <li>1ytdh</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
+                <li>Thống kê</li>
               </MenuItem>
 
               <MenuItem title="AI" icon={<HiCpuChip />}>
-                <li>1ytdh</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
+                <li>AI</li>
               </MenuItem>
               
             </ul>

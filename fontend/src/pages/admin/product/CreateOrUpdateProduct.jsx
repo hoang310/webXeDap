@@ -54,7 +54,7 @@ const CreateOrUpdateProduct = () => {
     } else {
       await createProduct(form);
     }
-    navigate("/dashboard");
+    navigate("/admin/quan-ly-san-pham");
   };
 
   if (loading) return <p>Đang tải...</p>

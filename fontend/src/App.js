@@ -7,6 +7,9 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Product from './pages/admin/product/Product';
 import CreateOrUpdateProduct from './pages/admin/product/CreateOrUpdateProduct';
+import Category from './pages/admin/category/Category';
+import Order from './pages/admin/order/Order';
+import User from './pages/admin/user/User';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path="admin/quan-ly-san-pham" element={<Product/>}/>
         <Route path="admin/san-pham" element={<CreateOrUpdateProduct/>}/>
         <Route path="admin/san-pham/:id" element={<CreateOrUpdateProduct/>}/>
+        <Route path="admin/quan-ly-danh-muc" element={<Category/>}/>
+        <Route path="admin/quan-ly-don-hang" element={<Order/>}/>
+        <Route path="admin/quan-ly-nguoi-dung" element={<User/>}/>
       </Routes>
     </BrowserRouter>
   );
