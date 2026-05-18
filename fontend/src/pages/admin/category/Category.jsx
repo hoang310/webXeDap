@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Container from '../../../components/admin/Container'
 import Aside from '../../../components/admin/Aside'
 import Main from '../../../components/admin/Main'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { HiPlus, HiPencil, HiOutlineTrash, HiMagnifyingGlass, HiOutlineBuildingStorefront } from "react-icons/hi2";
-import { getCategories } from '../../../services/api'
+import { deleteCategory, getCategories } from '../../../services/api'
 
 function Category() {
 
@@ -14,6 +14,7 @@ function Category() {
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState("")
+  const location = useLocation()
 
   const fetchData = async () => {
     try {
@@ -30,8 +31,27 @@ function Category() {
     fetchData()
   }, [])
 
-  const handle_delete = () => {
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
 
+      navigate(location.pathname, { replace: true, state: {} })
+
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [location, navigate]);
+
+  const handle_delete = async (id) => {
+    try {
+      await deleteCategory(id)
+      setMessage("Xóa thành công");
+      setTimeout(() => setMessage(""), 3000);
+      fetchData()
+    } catch (error) {
+      setMessage("Xóa thất bại");
+      setTimeout(() => setMessage(""), 3000);
+      fetchData()
+    }
   }
 
   return (
@@ -44,7 +64,7 @@ function Category() {
               {message}
             </div>
           )}
-          {/* Header Section */}
+
           <div className="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
@@ -54,14 +74,13 @@ function Category() {
               <p className="text-gray-500">Xem, thêm và chỉnh sửa danh muc của bạn</p>
             </div>
 
-            <button onClick={() => navigate('/admin/san-pham/')} className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-medium">
+            <button onClick={() => navigate('/admin/danh-muc/')} className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-medium">
               <HiPlus className="w-5 h-5" />
               Thêm Danh mục
             </button>
           </div>
 
           <div className="max-w-8xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            {/* Search Bar */}
             <div className="p-4 border-b border-gray-100 bg-gray-50/50">
               <div className="relative max-w-sm text-gray-400">
                 <HiMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" />
@@ -73,27 +92,27 @@ function Category() {
               </div>
             </div>
 
-            
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+
+            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+              <table className="w-full text-left border-collapse bg-white">
                 <thead>
-                  <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
+                  <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider border-b border-gray-200">
                     <th className="px-6 py-4 font-semibold">ID sản phẩm</th>
                     <th className="px-6 py-4 font-semibold">Danh mục</th>
                     <th className="px-6 py-4 font-semibold text-center">Thao tác</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 text-sm">
                   {categories.map((category) => (
                     <tr key={category._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-800">{category._id}</td>
-                      <td className="px-6 py-4 font-medium text-gray-800">{category.name}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">{category._id}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">{category.name}</td>
                       <td className="px-6 py-4">
-                        <div className="flex justify-center gap-3">
-                          <button onClick={() => navigate(`/admin/san-pham/${category._id}`)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        <div className="flex justify-center gap-2">
+                          <button onClick={() => navigate(`/admin/danh-muc/${category._id}`)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
                             <HiPencil className="w-5 h-5" />
                           </button>
-                          <button onClick={() => handle_delete(category._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                          <button onClick={() => handle_delete(category._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors">
                             <HiOutlineTrash className="w-5 h-5" />
                           </button>
                         </div>
@@ -103,6 +122,7 @@ function Category() {
                 </tbody>
               </table>
             </div>
+
           </div>
         </div>
       </Main>

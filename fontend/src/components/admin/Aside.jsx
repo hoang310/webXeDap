@@ -14,15 +14,13 @@ function Aside() {
           <div className="p-2">
             <h2 className="text-xs text-gray-400 mb-4">DANH SÁCH</h2>
             <ul>
-              {/* Menu 1 */}
               <MenuItem title="Bảng điều khiển" icon={<HiComputerDesktop />}>
-                <li className="w-full px-4 py-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-san-pham')}>Quản lý sản phẩm</li>
-                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-danh-muc')}>Quản lý danh mục</li>
-                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-don-hang')}>Quản lý đơn hàng</li>
-                <li className="w-full px-4 pb-3 border-b border-gray-200 rounded-t-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-nguoi-dung')}>Quản lý người dùng</li>
+                <li className="w-full px-4 py-3 border border-gray-200 rounded-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-san-pham')}>Quản lý sản phẩm</li>
+                <li className="w-full px-4 py-3 border border-gray-200 rounded-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-danh-muc')}>Quản lý danh mục</li>
+                <li className="w-full px-4 py-3 border border-gray-200 rounded-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-don-hang')}>Quản lý đơn hàng</li>
+                <li className="w-full px-4 py-3 border border-gray-200 rounded-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-nguoi-dung')}>Quản lý người dùng</li>
               </MenuItem>
 
-              {/* Menu 2 - Cái này sẽ hoạt động độc lập hoàn toàn */}
               <MenuItem title="Cài đặt" icon={<HiOutlineCog6Tooth />}>
                 <li>Cấu hình hệ thống</li>
                 <li>Thông tin cá nhân</li>

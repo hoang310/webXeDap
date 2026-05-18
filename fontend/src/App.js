@@ -10,6 +10,9 @@ import CreateOrUpdateProduct from './pages/admin/product/CreateOrUpdateProduct';
 import Category from './pages/admin/category/Category';
 import Order from './pages/admin/order/Order';
 import User from './pages/admin/user/User';
+import CreateOrUpdateCategory from './pages/admin/category/CreateOrUpdateCategory';
+import CreateOrUpdateOrder from './pages/admin/order/CreateOrUpdateOrder';
+import CreateOrUpdateUser from './pages/admin/user/CreateOrUpdateUser';
 
 function App() {
   return (
@@ -22,12 +25,22 @@ function App() {
         <Route path="/gio-hang" element={<Cart />} />
         <Route path="/thanh-toan" element={<Checkout />} />
         <Route path="admin" element={<Product/>}/>
+
         <Route path="admin/quan-ly-san-pham" element={<Product/>}/>
         <Route path="admin/san-pham" element={<CreateOrUpdateProduct/>}/>
         <Route path="admin/san-pham/:id" element={<CreateOrUpdateProduct/>}/>
+
         <Route path="admin/quan-ly-danh-muc" element={<Category/>}/>
+        <Route path="admin/danh-muc" element={<CreateOrUpdateCategory/>}/>
+        <Route path="admin/danh-muc/:id" element={<CreateOrUpdateCategory/>}/>
+
         <Route path="admin/quan-ly-don-hang" element={<Order/>}/>
+        <Route path="admin/don-hang" element={<CreateOrUpdateOrder/>}/>
+        <Route path="admin/don-hang/:id" element={<CreateOrUpdateOrder/>}/>
+        
         <Route path="admin/quan-ly-nguoi-dung" element={<User/>}/>
+        <Route path="admin/nguoi-dung" element={<CreateOrUpdateUser/>}/>
+        <Route path="admin/nguoi-dung/:id" element={<CreateOrUpdateUser/>}/>
       </Routes>
     </BrowserRouter>
   );

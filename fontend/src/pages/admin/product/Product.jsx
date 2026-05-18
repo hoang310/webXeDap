@@ -4,31 +4,28 @@ import Main from '../../../components/admin/Main'
 import { useEffect, useState, useMemo } from "react";
 import { HiPlus, HiPencil, HiOutlineTrash, HiMagnifyingGlass, HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { getProducts, deleteProduct } from '../../../services/api';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Product() {
 
   const [products, setProducts] = useState([])
-  const [pagination, setPagination] = useState({
-    total: 0,
-    page: 1,
-    totalPages: 0
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState("")
   const [message, setMessage] = useState("")
 
   const navigate = useNavigate();
+  const location = useLocation()
 
-  const fetchData = async () => {
+  const fetchData = async (page) => {
     try {
-      const mockResponse = await getProducts();
+      const mockResponse = await getProducts(page, 10);
       setProducts(mockResponse.data.data);
-      setPagination({
-        total: mockResponse.data.total,
-        page: mockResponse.data.page,
-        totalPages: mockResponse.data.totalPages
-      });
+      setCurrentPage(mockResponse.data.page);
+      setTotalPages(mockResponse.data.totalPages);
+      setTotalItems(mockResponse.data.total);
     } catch (err) {
       setErr("Không thể tải dữ liệu sản phẩm");
     } finally {
@@ -37,17 +34,26 @@ function Product() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(currentPage);
+  }, [currentPage]);
 
   const hetHang = useMemo(() => {
-    console.log("Đang tính toán lại số lượng tồn kho thấp...");
     return products.filter(item => item.stock < 10).length;
-  }, [products]); // Chỉ tính lại khi mảng products thay đổi     
+  }, [products])
 
   const totalValue = useMemo(() => {
     return products.reduce((sum, item) => sum + (item.price * item.stock), 0);
   }, [products]);
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
+
+      navigate(location.pathname, { replace: true, state: {} })
+
+      setTimeout(() => setMessage(""), 3000);
+    }
+  }, [location, navigate]);
 
   const handle_delete = async (id) => {
     try {
@@ -62,6 +68,11 @@ function Product() {
     }
   }
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (loading) return <p>Đang tải...</p>
   if (err) return <p>{err}</p>
 
@@ -75,7 +86,7 @@ function Product() {
               {message}
             </div>
           )}
-         
+
           <div className="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
@@ -91,11 +102,11 @@ function Product() {
             </button>
           </div>
 
-         
+
           <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <p className="text-sm text-gray-500 mb-1">Tổng sản phẩm</p>
-              <p className="text-2xl font-bold text-gray-800"><b>{products.length}</b> / <b>{pagination.total}</b></p>
+              <p className="text-2xl font-bold text-gray-800"><b>{products.length}</b> / <b>{totalItems}</b></p>
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <p className="text-sm text-gray-500 mb-1">Tổng giá trị kho</p>
@@ -107,9 +118,8 @@ function Product() {
             </div>
           </div>
 
-          
+
           <div className="max-w-8xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            {/* Search Bar */}
             <div className="p-4 border-b border-gray-100 bg-gray-50/50">
               <div className="relative max-w-sm text-gray-400">
                 <HiMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" />
@@ -121,11 +131,10 @@ function Product() {
               </div>
             </div>
 
-            
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+              <table className="w-full text-left border-collapse bg-white">
                 <thead>
-                  <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
+                  <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider border-b border-gray-200">
                     <th className="px-6 py-4 font-semibold">Tên sản phẩm</th>
                     <th className="px-6 py-4 font-semibold text-center">Ảnh</th>
                     <th className="px-6 py-4 font-semibold">Danh mục</th>
@@ -134,30 +143,57 @@ function Product() {
                     <th className="px-6 py-4 font-semibold text-center">Thao tác</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 text-sm">
                   {products.map((product) => (
-                    <tr key={product._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-800">{product.name}</td>
-                      <td><div className="flex justify-center">
-                        <img className="p-2 text-gray-700 h-16 w-16 rounded-full object-cover border" src={product.image} alt="err" srcset="" />
-                      </div></td>
+                    <tr key={product._id} className="hover:bg-gray-50/70 transition-colors">
+
+                      <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">
+                        {product.name}
+                      </td>
+
                       <td className="px-6 py-4">
-                        <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-                          {product.category_id.name}
+                        <div className="flex justify-center">
+                          <img
+                            className="h-12 w-12 rounded-md object-cover border border-gray-200 shadow-sm bg-gray-50"
+                            src={product.image || "https://placehold.co"}
+                            alt={product.name}
+                          />
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="px-2.5 py-1 bg-blue-50 text-blue-600 font-medium rounded-full text-xs">
+                          {product.category_id?.name || "Chưa phân loại"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-700">{product.price.toLocaleString()}đ</td>
-                      <td className="px-6 py-4">
-                        <span className={`font-semibold ${product.stock < 10 ? 'text-red-500' : 'text-green-600'}`}>
+
+                      <td className="px-6 py-4 text-gray-700 font-medium whitespace-nowrap">
+                        {product.price?.toLocaleString()}đ
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded text-xs ${product.stock < 10
+                          ? 'text-red-700 bg-red-50'
+                          : 'text-green-700 bg-green-50'
+                          }`}>
                           {product.stock}
                         </span>
                       </td>
+
                       <td className="px-6 py-4">
-                        <div className="flex justify-center gap-3">
-                          <button onClick={() => navigate(`/admin/san-pham/${product._id}`)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        <div className="flex justify-center gap-2">
+                          <button
+                            onClick={() => navigate(`/admin/san-pham/${product._id}`)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                            title="Sửa"
+                          >
                             <HiPencil className="w-5 h-5" />
                           </button>
-                          <button onClick={() => handle_delete(product._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                          <button
+                            onClick={() => handle_delete(product._id)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                            title="Xóa"
+                          >
                             <HiOutlineTrash className="w-5 h-5" />
                           </button>
                         </div>
@@ -167,6 +203,54 @@ function Product() {
                 </tbody>
               </table>
             </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between border-t border-gray-200 bg-white px-6 py-4">
+                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      Hiển thị trang <span className="font-medium">{currentPage}</span> trên tổng số{" "}
+                      <span className="font-medium">{totalPages}</span> trang (Tổng số{" "}
+                      <span className="font-medium">{totalItems}</span> sản phẩm)
+                    </p>
+                  </div>
+
+                  <div>
+                    <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                      <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="relative inline-flex items-center rounded-l-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        &lsaquo;
+                      </button>
+
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                          key={i + 1}
+                          onClick={() => handlePageChange(i + 1)}
+                          className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 ${currentPage === i + 1
+                            ? "z-10 bg-blue-600 text-white ring-blue-600"
+                            : "text-gray-900 hover:bg-gray-50"
+                            }`}
+                        >
+                          {i + 1}
+                        </button>
+                      ))}
+
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="relative inline-flex items-center rounded-r-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        &rsaquo;
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </Main>

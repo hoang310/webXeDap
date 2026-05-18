@@ -37,18 +37,18 @@ exports.getAllProducts = async (query) => {
     if (maxPrice) filter.price.$lte = Number(maxPrice);
   }
 
-  const skip = (page - 1) * limit;
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+
+  const skip = (pageNumber - 1) * limitNumber;
 
   const products = await Product.find(filter)
     .populate("category_id", "name")
-    .sort({ [sortBy]: order === "desc" ? -1 : 1 })
+    .sort({ createdAt: -1, _id: -1 })
     .skip(skip)
-    .limit(Number(limit));
+    .limit(limitNumber);
 
   const total = await Product.countDocuments(filter);
-
-  //console.log("keyword: ", keyword);
-  //console.log("category: ", category);
 
   return {
     data: products,
@@ -67,7 +67,7 @@ exports.getProductById = async (id) => {
 // Update
 exports.updateProduct = async (id, data) => {
   return await Product.findByIdAndUpdate(id, data, {
-    new: true
+    returnDocument: 'after'
   }).populate("category_id", "name");
 };
 

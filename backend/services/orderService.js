@@ -23,8 +23,15 @@ exports.createOrder = async (data) => {
 };
 
 // Get all orders (with items)
-exports.getAllOrders = async () => {
-  const orders = await Order.find().populate("user_id", "name email");
+exports.getAllOrders = async (query) => {
+
+  const {page = 1, limit = 5} = query;
+
+  const skip = (page - 1) * limit;
+
+  const total = await Order.countDocuments();
+
+  const orders = await Order.find().populate("user_id", "name email").skip(skip).limit(Number(limit));
 
   const results = [];
 
@@ -38,7 +45,11 @@ exports.getAllOrders = async () => {
     });
   }
 
-  return results;
+  return {data: results,
+    total,
+    page: Number(page),
+    totalPages: Math.ceil(total / limit)
+  };
 };
 
 // Get order by ID
@@ -82,7 +93,7 @@ exports.updateOrderStatus = async (id, status) => {
   return await Order.findByIdAndUpdate(
     id,
     { status },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
 

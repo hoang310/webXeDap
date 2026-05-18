@@ -6,7 +6,7 @@ const API = axios.create({
 });
 
 //product
-export const getProducts = (limit = 10) => API.get(`/products?limit=${limit}`);
+export const getProducts = (page = 1, limit = 10) => API.get(`/products?page=${page}&limit=${limit}`);
 
 export const getProductsById = (id) => {
   return API.get(`/products/${id}`);
@@ -28,9 +28,29 @@ export const deleteProduct = (id) => {
   return API.delete(`/products/${id}`);
 };
 
+export const getImages = () => {
+  return API.get("/products/upload/images")
+}
+
 
 //Category
 export const getCategories = () => API.get("/categories");
+
+export const createCategory = (data) => {
+  return API.post("/categories", data);
+};
+
+export const updateCategory = (id, data) => {
+  return API.put(`/categories/${id}`, data);
+};
+
+export const getCategoriesById = (id) => {
+  return API.get(`/categories/${id}`);
+};
+
+export const deleteCategory = (id) => {
+  return API.delete(`/categories/${id}`);
+};
 
 
 // Reviews
@@ -42,11 +62,15 @@ export const createReview = (data) =>
 
 
 // Orders
-export const getOrders = () => API.get("/orders");
+export const getOrders = (page = 1, limit = 5) => API.get(`/orders?page=${page}&limit=${limit}`);
 export const getOrderById = (id) => API.get(`/orders/${id}`);
 
 
 // R
+export const getUser = () => {
+  return API.get("/users")
+}
+
 export const registerAPI = (data) => {
   return API.post("/users/register", data);
 };

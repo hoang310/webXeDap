@@ -59,7 +59,7 @@ exports.updateUser = async (id, data) => {
   }
 
   return await User.findByIdAndUpdate(id, data, {
-    new: true
+    returnDocument: 'after'
   }).select("-password");
 };
 

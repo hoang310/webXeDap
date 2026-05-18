@@ -1,5 +1,6 @@
 // models/Payment.js
 const mongoose = require("mongoose");
+require("./Order");
 
 const paymentSchema = new mongoose.Schema({
   order_id: {

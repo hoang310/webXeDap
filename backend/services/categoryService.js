@@ -21,7 +21,7 @@ exports.getCategoryById = async (id) => {
 // Update
 exports.updateCategory = async (id, data) => {
   return await Category.findByIdAndUpdate(id, data, {
-    new: true
+    returnDocument: 'after'
   });
 };
 

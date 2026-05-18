@@ -75,7 +75,6 @@ const Navbar = () => {
           
         </div>
 
-        {/* Nút Mobile */}
         <button className="md:hidden" onClick={() => setIsMobileOpen(!isMobileOpen)}>
           {isMobileOpen ? '✕' : '☰'}
         </button>

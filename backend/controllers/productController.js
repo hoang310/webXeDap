@@ -1,45 +1,43 @@
 // controllers/productController.js
-
+const path = require('path')
+const fs = require('fs')
 const productService = require("../services/productService"); 
 
 // Create product
 exports.createProduct = async (req, res) => {
   try {
 
-    const { name, price, stock, category_id, image} = req.body;
+    const { name, price, stock, category_id } = req.body;
 
     if (!name) {
-      console.log(name)
       return res.status(400).json({ message: "Name is required" });
     }
-    else if (!price) {
-      console.log(price)
+
+    if (!price) {
       return res.status(400).json({ message: "Price is required" });
     }
-    else if (!stock) {
-      console.log(stock)
+
+    if (!stock) {
       return res.status(400).json({ message: "Stock is required" });
     }
-    else if (!category_id) {
-      console.log(category_id)
+
+    if (!category_id) {
       return res.status(400).json({ message: "Category is required" });
     }
-    else if (!image) {
-      console.log(image)
-      return res.status(400).json({ message: "Image is required" });
-    }
-    else {
-      const product = await productService.createProduct(req.body);
-      console.log("productServices.createProduct")
-      res.status(201).json(product);
-    }
-      
-    /*const data = {
+
+    const data = {
       ...req.body,
-      image: req.file ? `/uploads/${req.file.filename}` : null
-    };*/
+      image: req.file ? req.file.originalname : req.body.image
+    };
+
+    const product = await productService.createProduct(data);
+
+    res.status(201).json(product);
+
   } catch (error) {
-    res.status(500).json({ message: "Create product failed" });
+    console.log(req.body);
+    console.log(req.file);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -69,9 +67,15 @@ exports.getProductById = async (req, res) => {
 // Update product
 exports.updateProduct = async (req, res) => {
   try {
+
+    const data = {
+      ...req.body,
+      image: req.file ? req.file.originalname : req.body.image
+    };
+
     const product = await productService.updateProduct(
       req.params.id,
-      req.body
+      data
     );
 
     if (!product) {
@@ -81,6 +85,7 @@ exports.updateProduct = async (req, res) => {
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: "Update product failed" });
+    console.log(req.body);
   }
 };
 
@@ -127,4 +132,20 @@ exports.getBestSellerProducts = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Get best seller products failed" });
   }
+};
+
+exports.getImages = async (req, res) => {
+
+  const uploadPath = path.join(__dirname, "..", "..", "uploads");
+
+  fs.readdir(uploadPath, (err, files) => {
+
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    res.json(files);
+
+  });
+
 };

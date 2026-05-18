@@ -39,7 +39,7 @@ exports.getReviewById = async (id) => {
 // Update
 exports.updateReview = async (id, data) => {
   return await Review.findByIdAndUpdate(id, data, {
-    new: true
+    returnDocument: 'after'
   });
 };
 
