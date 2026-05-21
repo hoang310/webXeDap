@@ -8,7 +8,7 @@ function Aside() {
   const navigate = useNavigate()
 
   return (
-    <aside className="px-5 border-r hidden md:block">
+    <aside className="px-5 border-r hidden md:block min-h-screen bg-gray-900 text-white">
         <div className="w-64 p-8 text-2xl font-bold">HHAdmin</div>
         <div>
           <div className="p-2">

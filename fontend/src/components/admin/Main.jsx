@@ -12,7 +12,7 @@ const Main = ({ children }) => {
   const navigate = useNavigate()
   const [aside, setAside] = useState(false)
   return (
-    <div className="w-full">
+    <div className="w-full bg-gray-900">
       <div className="px-4 py-4 border-b flex items-center justify-between">
         <button className="md:hidden" onClick={() => setAside(!aside)}>{aside ? '✕' : '☰'}</button>
         <div className="hidden md:flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-lg w-72">

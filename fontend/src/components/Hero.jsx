@@ -1,9 +1,14 @@
 const Hero = () => {
+
+  const urlI = process.env.REACT_APP_IMAGE
+  const img = "webxedap.webp"
+
+
   return (
     <div className="relative w-full h-screen">
       {/* Background Image */}
       <img
-        src="https://thongnhat.com.vn/wp-content/uploads/2025/06/xe-dap-thong-nhat-cover-2025a.webp"
+        src={`${urlI}${img}`}
         alt="banner"
         className="w-full h-full object-cover"
       />
