@@ -64,6 +64,12 @@ export const createReview = (data) =>
 // Orders
 export const getOrders = (page = 1, limit = 5) => API.get(`/orders?page=${page}&limit=${limit}`);
 export const getOrderById = (id) => API.get(`/orders/${id}`);
+export const createOrder = (data) => {
+  return API.post("/orders", data);
+};
+export const updateOrder = (id, data) => {
+  return API.put(`/orders/${id}`, data);
+};
 
 
 // R

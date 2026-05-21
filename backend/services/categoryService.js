@@ -10,7 +10,7 @@ exports.createCategory = async (data) => {
 
 // Get all
 exports.getAllCategories = async () => {
-  return await Category.find();
+  return await Category.find().sort({ name: 1 }); 
 };
 
 // Get by ID
