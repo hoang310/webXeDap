@@ -1,183 +1,86 @@
-import React, { useState, useEffect } from "react";
-import { HiPencil, HiOutlineTrash } from "react-icons/hi";
-import { getProducts } from "./api"; // Đường dẫn đến file API của bạn
+import React, { useState } from 'react';
+import axios from 'axios';
 
-export default function ProductTable({ navigate, handle_delete }) {
-  // 1. Các State quản lý dữ liệu từ API
-  const [products, setProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [loading, setLoading] = useState(false);
-  
-  const itemsPerPage = 10; // Đặt limit cố định là 10 mục/trang
+function App() {
+  const [isLoginView, setIsLoginView] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [user, setUser] = useState(localStorage.getItem('username') || null);
 
-  // 2. Hàm gọi dữ liệu từ API theo số trang hiện tại
-  const fetchProducts = async (page) => {
-    setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    
+    const url = isLoginView 
+      ? 'http://localhost:5000/api/auth/login' 
+      : 'http://localhost:5000/api/auth/register';
+
     try {
-      const response = await getProducts(page, itemsPerPage);
+      const response = await axios.post(url, { username, password });
       
-      // Giả sử API trả về cấu trúc: response.data = { products: [], total: 25, page: 1, totalPages: 3 }
-      // Hãy điều chỉnh response.data cho đúng với thực tế API của bạn
-      const { data } = response; 
-      
-      setProducts(data.products || []);
-      setCurrentPage(data.page);
-      setTotalPages(data.totalPages);
-      setTotalItems(data.total);
+      if (isLoginView) {
+        // Nếu đăng nhập thành công, lưu token và username vào LocalStorage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', response.data.username);
+        setUser(response.data.username);
+      } else {
+        // Nếu đăng ký thành công, chuyển sang giao diện đăng nhập
+        setIsLoginView(true);
+      }
+      setMessage(response.data.message);
     } catch (error) {
-      console.error("Lỗi khi tải sản phẩm:", error);
-    } finally {
-      setLoading(false);
+      setMessage(error.response?.data?.message || 'Có lỗi xảy ra!');
     }
   };
 
-  // Tự động gọi API mỗi khi trạng thái currentPage thay đổi
-  useEffect(() => {
-    fetchProducts(currentPage);
-  }, [currentPage]);
-
-  // 3. Hàm xử lý chuyển trang khi bấm nút
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    // Cuộn lên đầu bảng để có trải nghiệm tốt hơn
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+    setMessage('Đã đăng xuất!');
   };
 
-  return (
-    <div className="w-full bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-      {/* KHỐI 1: BẢNG DỮ LIỆU */}
-      <div className="overflow-x-auto relative">
-        {/* Hiệu ứng loading mờ khi đang tải dữ liệu từ API */}
-        {loading && (
-          <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
-            <span className="text-sm font-medium text-blue-600">Đang tải...</span>
-          </div>
-        )}
-
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider border-b border-gray-200">
-              <th className="px-6 py-4 font-semibold">Tên sản phẩm</th>
-              <th className="px-6 py-4 font-semibold text-center">Ảnh</th>
-              <th className="px-6 py-4 font-semibold">Danh mục</th>
-              <th className="px-6 py-4 font-semibold">Giá</th>
-              <th className="px-6 py-4 font-semibold">Tồn kho</th>
-              <th className="px-6 py-4 font-semibold text-center">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 text-sm">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <tr key={product._id} className="hover:bg-gray-50/70 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">
-                    {product.name}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-center">
-                      <img 
-                        className="h-12 w-12 rounded-md object-cover border border-gray-200 shadow-sm bg-gray-50" 
-                        src={product.image || "https://placehold.co"} 
-                        alt={product.name} 
-                      />
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2.5 py-1 bg-blue-50 text-blue-600 font-medium rounded-full text-xs">
-                      {product.category_id?.name || "Chưa phân loại"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-gray-700 font-medium whitespace-nowrap">
-                    {product.price?.toLocaleString()}đ
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded text-xs ${
-                      product.stock < 10 ? 'text-red-700 bg-red-50' : 'text-green-700 bg-green-50'
-                    }`}>
-                      {product.stock}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-center gap-2">
-                      <button 
-                        onClick={() => navigate(`/admin/san-pham/${product._id}`)} 
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                      >
-                        <HiPencil className="w-5 h-5" />
-                      </button>
-                      <button 
-                        onClick={() => handle_delete(product._id).then(() => fetchProducts(currentPage))} 
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                      >
-                        <HiOutlineTrash className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="px-6 py-10 text-center text-gray-500">
-                  {!loading ? "Không có sản phẩm nào để hiển thị." : "Đang tải dữ liệu..."}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+  // Giao diện sau khi ĐÃ ĐĂNG NHẬP
+  if (user) {
+    return (
+      <div style={{ padding: '20px', textAlign: 'center' }}>
+        <h2>Chào mừng, {user}! 🎉</h2>
+        <button onClick={handleLogout} style={{ padding: '8px 16px', cursor: 'pointer' }}>Đăng xuất</button>
       </div>
+    );
+  }
 
-      {/* KHỐI 2: THANH PHÂN TRANG */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-6 py-4">
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Hiển thị trang <span className="font-medium">{currentPage}</span> trên tổng số{" "}
-                <span className="font-medium">{totalPages}</span> trang (Tổng số{" "}
-                <span className="font-medium">{totalItems}</span> sản phẩm)
-              </p>
-            </div>
-
-            <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                {/* Nút Trước */}
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="relative inline-flex items-center rounded-l-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  &lsaquo;
-                </button>
-
-                {/* Tạo các nút số trang dựa vào totalPages từ API */}
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => handlePageChange(i + 1)}
-                    className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 ${
-                      currentPage === i + 1
-                        ? "z-10 bg-blue-600 text-white ring-blue-600"
-                        : "text-gray-900 hover:bg-gray-50"
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-
-                {/* Nút Sau */}
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="relative inline-flex items-center rounded-r-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  &rsaquo;
-                </button>
-              </nav>
-            </div>
-          </div>
+  // Giao diện ĐĂNG NHẬP / ĐĂNG KÝ
+  return (
+    <div style={{ maxWidth: '300px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <h2>{isLoginView ? 'Đăng Nhập' : 'Đăng Ký'}</h2>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '10px' }}>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required style={{ width: '100%', padding: '5px' }} />
         </div>
-      )}
+        <div style={{ marginBottom: '10px' }}>
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '5px' }} />
+        </div>
+        <button type="submit" style={{ width: '100%', padding: '8px', background: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+          {isLoginView ? 'Đăng nhập' : 'Đăng ký'}
+        </button>
+      </form>
+
+      {message && <p style={{ color: 'blue', marginTop: '10px' }}>{message}</p>}
+
+      <p style={{ marginTop: '15px', fontSize: '14px', textAlign: 'center' }}>
+        {isLoginView ? 'Chưa có tài khoản?' : 'Đã có tài khoản?'} {' '}
+        <span 
+          onClick={() => { setIsLoginView(!isLoginView); setMessage(''); }} 
+          style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+        >
+          {isLoginView ? 'Đăng ký ngay' : 'Đăng nhập ngay'}
+        </span>
+      </p>
     </div>
   );
 }
+
+export default App;

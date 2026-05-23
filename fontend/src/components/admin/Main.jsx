@@ -11,6 +11,7 @@ const Main = ({ children }) => {
   const img = "anh.jpg"
   const navigate = useNavigate()
   const [aside, setAside] = useState(false)
+  const username = localStorage.getItem('username') || 'Admin';
   return (
     <div className="w-full bg-gray-900">
       <div className="px-4 py-4 border-b flex items-center justify-between">
@@ -21,6 +22,7 @@ const Main = ({ children }) => {
         </div>
         <div className="flex items-center gap-4">
           <HiBell className="text-gray-500 text-xl" />
+          <span className="text-gray-700 font-medium">{username}</span>
           <img src={`${urlI}${img}`} alt="admin" className="w-12 h-12 rounded-full border-2 border-gray-300" />
         </div>
       </div>

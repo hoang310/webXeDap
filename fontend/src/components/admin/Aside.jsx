@@ -7,6 +7,11 @@ function Aside() {
 
   const navigate = useNavigate()
 
+  const handleLogout = () => {
+        localStorage.clear()
+        navigate('/dang-nhap')
+  };
+
   return (
     <aside className="px-5 border-r hidden md:block min-h-screen bg-gray-900 text-white">
         <div className="w-64 p-8 text-2xl font-bold">HHAdmin</div>
@@ -42,6 +47,7 @@ function Aside() {
           </div>
           <div>
             <h2 className="text-xs text-gray-400">KHÁC</h2>
+            <button onClick={handleLogout} className="mt-3 px-4 py-2 border border-gray-300 hover:border-red-500 text-gray-700 hover:text-red-600 font-medium rounded-lg bg-white hover:bg-red-50 transition-all duration-200">Đăng xuất</button>
           </div>
           
         </div>

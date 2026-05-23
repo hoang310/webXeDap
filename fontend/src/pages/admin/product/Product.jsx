@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function Product() {
 
+  const urlI = process.env.REACT_APP_IMAGE
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -155,7 +156,7 @@ function Product() {
                         <div className="flex justify-center">
                           <img
                             className="h-12 w-12 rounded-md object-cover border border-gray-200 shadow-sm bg-gray-50"
-                            src={product.image || "https://placehold.co"}
+                            src={`${urlI}${product.image}` || "https://placehold.co"}
                             alt={product.name}
                           />
                         </div>

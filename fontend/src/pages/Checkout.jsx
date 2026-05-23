@@ -6,7 +6,6 @@ const Checkout = () => {
   const { cart, clearCart } = useContext(CartContext); // Đảm bảo bạn đã thêm clearCart vào Context
   const [orderPlaced, setOrderPlaced] = useState(false);
 
-  // Tính tổng tiền giống trang Cart
   const total = cart.reduce((sum, item) => {
     const priceNumber = Number(String(item.price).replace(/[^0-9]/g, ""));
     return sum + priceNumber * item.qty;
@@ -34,7 +33,6 @@ const Checkout = () => {
       <Navbar />
       <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-2 gap-8">
         
-        {/* 1. Form thông tin khách hàng */}
         <div className="bg-white p-6 shadow-sm border rounded">
           <h2 className="text-xl font-bold mb-6 border-b pb-2 uppercase text-red-600">Thông tin giao hàng</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -64,7 +62,6 @@ const Checkout = () => {
           </form>
         </div>
 
-        {/* 2. Tóm tắt đơn hàng */}
         <div className="bg-white p-6 shadow-sm border rounded h-fit">
           <h2 className="text-xl font-bold mb-6 border-b pb-2 uppercase">Đơn hàng của bạn</h2>
           <div className="space-y-4">

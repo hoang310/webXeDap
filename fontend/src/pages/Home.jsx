@@ -55,7 +55,7 @@ const Home = () => {
             <span className="block w-20 h-1 bg-red-600 mx-auto mt-2"></span>
           </h2>
           <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
-            Khám phá những mẫu xe mới nhất từ HHBIKE - Thương hiệu quốc gia hơn 60 năm lịch sử.
+            Khám phá những mẫu xe mới nhất từ HHBIKE - Thương hiệu uy tín.
           </p>
         </div>
 

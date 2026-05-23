@@ -1,15 +1,28 @@
 import { useParams } from "react-router-dom";
-import products from "../data/products";
 import Navbar from "../components/Navbar";
 import Footer from '../components/Footer';
 import { useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import { getProductsById } from "../services/api";
 
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find(p => p.id === id);
+  const [product, setProduct] = useState(null);
+
+  useState(() => {
+    const fetchPro = async () => {
+      try {
+        const res = await getProductsById(id);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchPro();
+  }, [id]);
 
   const { addToCart } = useContext(CartContext);
 
@@ -22,7 +35,7 @@ const ProductDetail = () => {
           {/* Breadcrumb */}
           <div className="bg-gray-100 py-3">
             <div className="max-w-6xl mx-auto px-4 text-xs text-gray-500">
-              TRANG CHỦ / XE ĐẠP ĐỊA HÌNH / <span className="text-gray-800">{product.name}</span>
+              <Link to={`/`}>TRANG CHỦ</Link> / <Link to={`/the-loai/${product.category_id._id}/${product.category_id.name}`}>{product.category_id.name}</Link> / <span className="text-gray-800">{product.name}</span>
             </div>
           </div>
     
@@ -45,7 +58,7 @@ const ProductDetail = () => {
               
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-bold text-red-600">
-                  {product.price}₫
+                  {product.price.toLocaleString()}₫
                 </span>
                 {product.oldPrice && (
                   <span className="text-gray-400 line-through text-lg">
@@ -70,28 +83,6 @@ const ProductDetail = () => {
                   Thêm vào giỏ hàng
                 </button>
               </div>
-    
-              {/* Thông số kỹ thuật (Dạng bảng) */}
-              <div className="mt-4">
-                <h3 className="font-bold text-lg mb-3 border-b-2 border-red-600 inline-block">
-                  THÔNG SỐ KỸ THUẬT
-                </h3>
-                <table className="w-full text-sm mt-2">
-                  <tbody>
-                    {product.specs.map((spec, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
-                        <td className="py-3 px-4 font-semibold text-gray-700 w-1/3 border-b border-gray-100">
-                          {spec.key}
-                        </td>
-                        <td className="py-3 px-4 text-gray-600 border-b border-gray-100">
-                          {spec.value}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
             </div>
           </div>
     

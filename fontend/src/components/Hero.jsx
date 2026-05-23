@@ -6,17 +6,14 @@ const Hero = () => {
 
   return (
     <div className="relative w-full h-screen">
-      {/* Background Image */}
       <img
         src={`${urlI}${img}`}
         alt="banner"
         className="w-full h-full object-cover"
       />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/30"></div>
 
-      {/* Content (optional) */}
       <div className="absolute inset-0 flex items-center justify-center text-white text-center z-10">
         <div>
           <h1 className="text-4xl md:text-6xl font-bold mb-4">

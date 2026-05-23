@@ -13,6 +13,9 @@ import User from './pages/admin/user/User';
 import CreateOrUpdateCategory from './pages/admin/category/CreateOrUpdateCategory';
 import CreateOrUpdateOrder from './pages/admin/order/CreateOrUpdateOrder';
 import CreateOrUpdateUser from './pages/admin/user/CreateOrUpdateUser';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NhapD from './components/nhap/NhapD';
 
 function App() {
 
@@ -25,6 +28,8 @@ function App() {
         <Route path="/lien-he" element={<Contact />} />
         <Route path="/gio-hang" element={<Cart />} />
         <Route path="/thanh-toan" element={<Checkout />} />
+        <Route path="/dang-nhap" element={<Login/>}/>
+        <Route path="/dang-ky" element={<Register/>}/>
         <Route path="admin" element={<Product/>}/>
 
         <Route path="admin/quan-ly-san-pham" element={<Product/>}/>
@@ -42,6 +47,8 @@ function App() {
         <Route path="admin/quan-ly-nguoi-dung" element={<User/>}/>
         <Route path="admin/nguoi-dung" element={<CreateOrUpdateUser/>}/>
         <Route path="admin/nguoi-dung/:id" element={<CreateOrUpdateUser/>}/>
+
+        <Route path="nhap" element={<NhapD/>}/>
       </Routes>
     </BrowserRouter>
   );
