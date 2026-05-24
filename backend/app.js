@@ -15,12 +15,14 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const userRoutes = require("./routes/userRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/generate-description", aiRoutes);
 
 
 app.get("/", (req, res) => {

@@ -7,9 +7,34 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
+
   total_price: Number,
+
   status: String,
-  payment_method: String,
+
+  payment: {
+    method: {
+      type: String,
+      enum: ["cod", "banking"]
+    },
+
+    status: {
+      type: String,
+      default: "unpaid"
+    }
+  },
+
+  shipment: {
+    address: String,
+
+    status: {
+      type: String,
+      default: "preparing"
+    },
+
+    shipped_at: Date
+  },
+  
   created_at: { type: Date, default: Date.now }
 });
 

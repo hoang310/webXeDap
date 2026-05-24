@@ -1,5 +1,6 @@
 // models/Shipment.js
 const mongoose = require("mongoose");
+require("./Order");
 
 const shipmentSchema = new mongoose.Schema({
   order_id: {

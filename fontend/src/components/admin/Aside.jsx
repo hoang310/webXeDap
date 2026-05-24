@@ -31,13 +31,19 @@ function Aside() {
                 <li>Thông tin cá nhân</li>
               </MenuItem>
 
-              <MenuItem title="Thống kê" icon={<HiChartPie />}>
-                <li>Thống kê</li>
-              </MenuItem>
+              <button 
+                onClick={() => navigate('/admin/thong-ke')} 
+                className="px-4 py-2 flex justify-center items-center gap-2"
+              >
+                <HiChartPie /> Thống kê
+              </button>
 
-              <MenuItem title="AI" icon={<HiCpuChip />}>
-                <li>AI</li>
-              </MenuItem>
+              <button 
+                onClick={() => navigate('/admin/AI')} 
+                className="px-4 py-2 flex justify-center items-center gap-2"
+              >
+                <HiCpuChip /> AI
+              </button>
               
             </ul>
             

@@ -16,6 +16,8 @@ import CreateOrUpdateUser from './pages/admin/user/CreateOrUpdateUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NhapD from './components/nhap/NhapD';
+import Statistical from './pages/admin/ai/Statistical';
+import Ai from './pages/admin/ai/Ai';
 
 function App() {
 
@@ -47,6 +49,9 @@ function App() {
         <Route path="admin/quan-ly-nguoi-dung" element={<User/>}/>
         <Route path="admin/nguoi-dung" element={<CreateOrUpdateUser/>}/>
         <Route path="admin/nguoi-dung/:id" element={<CreateOrUpdateUser/>}/>
+
+        <Route path="admin/thong-ke" element={<Statistical/>}/>
+        <Route path="admin/AI" element={<Ai/>}/>
 
         <Route path="nhap" element={<NhapD/>}/>
       </Routes>

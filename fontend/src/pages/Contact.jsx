@@ -10,9 +10,9 @@ const Contact = () => {
         <div>
           <h1 className="text-2xl font-bold mb-4">Liên hệ</h1>
 
-          <p><b>Địa chỉ:</b> 10B Tràng Thi, Hà Nội</p>
-          <p><b>Email:</b> tnbike@thongnhat.com.vn</p>
-          <p><b>Hotline:</b> 0966961960</p>
+          <p><b>Địa chỉ:</b> 182 Lê Duẩn, Phường Trường Vinh, Tỉnh Nghệ An</p>
+          <p><b>Email:</b> HHbike@gmail.com.vn</p>
+          <p><b>Hotline:</b> 0123456789</p>
         </div>
 
         {/* Form */}
