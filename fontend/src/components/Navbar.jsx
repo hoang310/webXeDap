@@ -14,39 +14,67 @@ const Navbar = () => {
   const { cart } = useContext(CartContext);
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
-  // Cấu trúc dữ liệu menu 2 cấp
   const menuItems = [
     { name: 'TRANG CHỦ', link: '/' },
-    { 
-      name: 'SẢN PHẨM', 
-      link: '/san-pham', 
-      submenu: ['Xe đạp địa hình', 'Xe đạp phổ thông', 'Xe đạp trẻ em', 'Linh kiện'] 
+
+    {
+      name: 'SẢN PHẨM',
+      link: '#',
+      submenu: [
+        {
+          name: 'Xe đạp địa hình',
+          link: '/the-loai/69c3f29216b6cee7372b6be4'
+        },
+        {
+          name: 'Xe điện',
+          link: '/the-loai/69c3f29216b6cee7372b6be8'
+        },
+        {
+          name: 'Xe đạp trẻ em',
+          link: '/the-loai/69c3f29216b6cee7372b6be7'
+        },
+        {
+          name: 'Xe touring',
+          link: '/the-loai/69c3f29216b6cee7372b6be6'
+        },
+        {
+          name: 'Xe đua',
+          link: '/the-loai/69c3f29216b6cee7372b6be5'
+        }
+      ]
     },
-    { name: 'TIN TỨC', link: '/tin-tuc' },
-    { name: 'LIÊN HỆ', link: '/lien-he' },
-  ];
+
+    { name: 'LIÊN HỆ', link: '/lien-he' }
+  ]
 
   return (
     <nav className="bg-white shadow-md relative">
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
-        
-        {/* Logo */}
+
         <div className="font-bold text-red-600 text-2xl">HHBIKE</div>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6 h-full items-center">
           {menuItems.map((item) => (
-            <div key={item.name} className="relative group h-full flex items-center">
-              <a href={item.link} className="font-semibold hover:text-red-600">
+            <div
+              key={item.name}
+              className="relative group h-full flex items-center"
+            >
+              <a
+                href={item.link}
+                className="font-semibold hover:text-red-600"
+              >
                 {item.name} {item.submenu && '▾'}
               </a>
 
-              {/* Menu cấp 2 (Dropdown) */}
               {item.submenu && (
-                <div className="absolute top-16 left-0 bg-white shadow-lg border-t-2 border-red-600 w-48 hidden group-hover:block z-50">
+                <div className="absolute top-16 left-0 bg-white shadow-lg border-t-2 border-red-600 w-56 hidden group-hover:block z-50">
                   {item.submenu.map((sub) => (
-                    <a key={sub} href="#" className="block px-4 py-2 hover:bg-gray-100 border-b border-gray-50 last:border-0">
-                      {sub}
+                    <a
+                      key={sub.name}
+                      href={`${sub.link}/${sub.name}`}
+                      className="block px-4 py-2 hover:bg-gray-100 border-b border-gray-50 last:border-0"
+                    >
+                      {sub.name}
                     </a>
                   ))}
                 </div>
@@ -56,23 +84,22 @@ const Navbar = () => {
 
           <div className="relative">
             <button>
-                <Link to={`/gio-hang`}><HiOutlineShoppingBag className="text-xl" /></Link>
+              <Link to={`/gio-hang`}><HiOutlineShoppingBag className="text-xl" /></Link>
             </button>
-            
+
             {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {totalItems}
-            </span>
+              </span>
             )}
           </div>
 
-          {/* Nút tìm kiếm */}
           <div>
             <button onClick={() => setSearchOpen(!searchOpen)} className="hover:text-red-600">
-                <HiOutlineSearch className="text-xl cursor-pointer"/>
+              <HiOutlineSearch className="text-xl cursor-pointer" />
             </button>
           </div>
-          
+
         </div>
 
         <button className="md:hidden" onClick={() => setIsMobileOpen(!isMobileOpen)}>
@@ -80,7 +107,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Thanh tìm kiếm (Hiện ra khi bấm nút search) */}
       {searchOpen && (
         <div className="absolute top-16 left-0 w-full bg-gray-100 p-4 z-40 border-b">
           <div className="max-w-xl mx-auto flex gap-2">
@@ -90,42 +116,55 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Menu */}
       {isMobileOpen && (
         <>
-        <div className="md:hidden bg-white border-t p-4 space-y-3">
-          {menuItems.map((item) => (
-            <div key={item.name}>
-              <div className="font-bold text-red-600">{item.name}</div>
-              {item.submenu && (
-                <div className="pl-4 text-gray-600">
-                  {item.submenu.map(sub => <a key={sub} href="#" className="block py-1">{sub}</a>)}
-                </div>
-              )}
-            </div>
-          ))}
-          
-          <div className="flex gap-4">
-            <div className="relative">
-                <button>
-                    <Link to={`/gio-hang`}><HiOutlineShoppingBag className="text-xl" /></Link>
-                </button>
-                
-                {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {totalItems}
-                </span>
+          <div className="md:hidden bg-white border-t p-4 space-y-3">
+            {menuItems.map((item) => (
+              <div key={item.name}>
+                <a
+                  href={item.link}
+                  className="font-bold text-red-600 block py-2"
+                >
+                  {item.name}
+                </a>
+                {item.submenu && (
+                  <div className="pl-4 text-gray-600">
+                    {item.submenu.map((sub) => (
+                      <a
+                        key={sub.name}
+                        href={`${sub.link}/${sub.name}`}
+                        className="block py-1 hover:text-red-500"
+                      >
+                        {sub.name}
+                      </a>
+                    ))}
+                  </div>
                 )}
-            </div>
-            <div>
-                <button onClick={() => setSearchOpen(!searchOpen)} className="hover:text-red-600">
-                    <HiOutlineSearch className="text-xl cursor-pointer"/>
+
+              </div>
+            ))}
+
+            <div className="flex gap-4">
+              <div className="relative">
+                <button>
+                  <Link to={`/gio-hang`}><HiOutlineShoppingBag className="text-xl" /></Link>
                 </button>
+
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </div>
+              <div>
+                <button onClick={() => setSearchOpen(!searchOpen)} className="hover:text-red-600">
+                  <HiOutlineSearch className="text-xl cursor-pointer" />
+                </button>
+              </div>
+
             </div>
-            
+
           </div>
-          
-        </div>
         </>
       )}
     </nav>
