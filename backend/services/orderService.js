@@ -1,9 +1,8 @@
-// services/orderService.js
+
 
 const Order = require("../models/Order");
 const OrderItem = require("../models/OrderItem");
 
-// Create order + items
 exports.createOrder = async (data) => {
   const { items, ...orderData } = data;
 
@@ -22,7 +21,6 @@ exports.createOrder = async (data) => {
   return savedOrder;
 };
 
-// Get all orders (with items)
 exports.getAllOrders = async (query) => {
 
   const {page = 1, limit = 5} = query;
@@ -52,7 +50,6 @@ exports.getAllOrders = async (query) => {
   };
 };
 
-// Get order by ID
 exports.getOrderById = async (id = "69c3f29216b6cee7372b6bff") => {
   const order = await Order.findById(id)
     .populate("user_id", "name email");
@@ -68,7 +65,6 @@ exports.getOrderById = async (id = "69c3f29216b6cee7372b6bff") => {
   };
 };
 
-// Get orders by user
 exports.getOrdersByUser = async (userId) => {
   const orders = await Order.find({ user_id: userId })
     .sort({ createdAt: -1 });
@@ -88,7 +84,6 @@ exports.getOrdersByUser = async (userId) => {
   return results;
 };
 
-// Update status
 exports.updateOrderStatus = async (id, status) => {
   return await Order.findByIdAndUpdate(
     id,
@@ -97,7 +92,6 @@ exports.updateOrderStatus = async (id, status) => {
   );
 };
 
-// Delete order + items 
 exports.deleteOrder = async (id) => {
   await OrderItem.deleteMany({ order_id: id });
   return await Order.findByIdAndDelete(id);

@@ -18,6 +18,7 @@ import Register from './pages/Register';
 import NhapD from './components/nhap/NhapD';
 import Statistical from './pages/admin/ai/Statistical';
 import Ai from './pages/admin/ai/Ai';
+import Search from './pages/Search';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/thanh-toan" element={<Checkout />} />
         <Route path="/dang-nhap" element={<Login/>}/>
         <Route path="/dang-ky" element={<Register/>}/>
+        <Route path="/tim-kiem/:query" element={<Search/>}/>
         <Route path="admin" element={<Product/>}/>
 
         <Route path="admin/quan-ly-san-pham" element={<Product/>}/>

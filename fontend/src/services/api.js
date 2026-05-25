@@ -33,7 +33,11 @@ export const deleteProduct = (id) => {
 
 export const getImages = () => {
   return API.get("/products/upload/images")
-}
+};
+
+export const gSearch = (query) => {
+  return API.get(`/products?keyword=${query}`);
+};
 
 
 //Category

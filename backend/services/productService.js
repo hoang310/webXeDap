@@ -1,14 +1,13 @@
-// services/productService.js
+
 
 const Product = require("../models/Product");
 
-// Create
+
 exports.createProduct = async (data) => {
   const product = new Product(data);
   return await product.save();
 };
 
-// Get all (with filter, search, pagination + join category)
 exports.getAllProducts = async (query) => {
   const {
     page = 1,
@@ -58,32 +57,28 @@ exports.getAllProducts = async (query) => {
   };
 };
 
-// Get by ID (join category)
+
 exports.getProductById = async (id) => {
   return await Product.findById(id)
     .populate("category_id", "name");
 };
 
-// Update
 exports.updateProduct = async (id, data) => {
   return await Product.findByIdAndUpdate(id, data, {
     returnDocument: 'after'
   }).populate("category_id", "name");
 };
 
-// Delete
 exports.deleteProduct = async (id) => {
   return await Product.findByIdAndDelete(id);
 };
 
-// Featured (join category)
 exports.getFeatured = async () => {
   return await Product.find({ featured: true })
     .populate("category_id", "name")
     .limit(8);
 };
 
-// Newest (join category)
 exports.getNewest = async () => {
   return await Product.find()
     .populate("category_id", "name")
@@ -91,15 +86,12 @@ exports.getNewest = async () => {
     .limit(8);
 };
 
-// Best seller (join category)
 exports.getBestSeller = async () => {
   return await Product.find()
     .populate("category_id", "name")
     .sort({ sold: -1 })
     .limit(8);
 };
-
-// Aggregate join (lookup)
 exports.getProductsWithCategoryAgg = async () => {
   return await Product.aggregate([
     {

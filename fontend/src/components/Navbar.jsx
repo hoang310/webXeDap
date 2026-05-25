@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { CartContext } from "../context/CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   HiOutlineShoppingBag,
   HiOutlineSearch,
@@ -10,8 +10,11 @@ import {
 const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
-  const { cart } = useContext(CartContext);
+  const navigate = useNavigate()
+
+  const { cart } = useContext(CartContext)
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
   const menuItems = [
@@ -47,22 +50,18 @@ const Navbar = () => {
     { name: 'LIÊN HỆ', link: '/lien-he' }
   ]
 
+  const handleSearch = () => {
+    navigate(`/tim-kiem/${keyword}`);
+  }
+
   return (
     <nav className="bg-white shadow-md relative">
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
-
         <div className="font-bold text-red-600 text-2xl">HHBIKE</div>
-
         <div className="hidden md:flex space-x-6 h-full items-center">
           {menuItems.map((item) => (
-            <div
-              key={item.name}
-              className="relative group h-full flex items-center"
-            >
-              <a
-                href={item.link}
-                className="font-semibold hover:text-red-600"
-              >
+            <div key={item.name} className="relative group h-full flex items-center">
+              <a href={item.link} className="font-semibold hover:text-red-600">
                 {item.name} {item.submenu && '▾'}
               </a>
 
@@ -110,8 +109,13 @@ const Navbar = () => {
       {searchOpen && (
         <div className="absolute top-16 left-0 w-full bg-gray-100 p-4 z-40 border-b">
           <div className="max-w-xl mx-auto flex gap-2">
-            <input type="text" placeholder="Tìm kiếm sản phẩm..." className="w-full p-2 border rounded" autoFocus />
-            <button className="bg-red-600 text-white px-4 rounded">Tìm</button>
+            <input
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              type="text" placeholder="Tìm kiếm sản phẩm..." className="w-full p-2 border rounded" autoFocus />
+            <button
+              onClick={() => handleSearch()}
+              className="bg-red-600 text-white px-4 rounded">Tìm</button>
           </div>
         </div>
       )}
@@ -121,10 +125,7 @@ const Navbar = () => {
           <div className="md:hidden bg-white border-t p-4 space-y-3">
             {menuItems.map((item) => (
               <div key={item.name}>
-                <a
-                  href={item.link}
-                  className="font-bold text-red-600 block py-2"
-                >
+                <a href={item.link} className="font-bold text-red-600 block py-2">
                   {item.name}
                 </a>
                 {item.submenu && (
