@@ -3,7 +3,7 @@ import { CartContext } from '../context/CartContext';
 import Navbar from '../components/Navbar';
 
 const Checkout = () => {
-  const { cart, clearCart } = useContext(CartContext); // Đảm bảo bạn đã thêm clearCart vào Context
+  const { cart, clearCart } = useContext(CartContext);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   const total = cart.reduce((sum, item) => {

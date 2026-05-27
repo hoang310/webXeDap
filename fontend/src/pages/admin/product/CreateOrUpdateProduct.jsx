@@ -1,4 +1,3 @@
-// pages/admin/AddProduct.jsx
 import { useState, useEffect } from "react";
 import { createProduct, getCategories, getProductsById, getImages, updateProduct } from "../../../services/api";
 import { Link, useNavigate, useParams } from "react-router-dom";

@@ -6,7 +6,6 @@ const Contact = () => {
       <Navbar />
 
       <div className="p-6 grid md:grid-cols-2 gap-6">
-        {/* Info */}
         <div>
           <h1 className="text-2xl font-bold mb-4">Liên hệ</h1>
 
@@ -15,7 +14,6 @@ const Contact = () => {
           <p><b>Hotline:</b> 0123456789</p>
         </div>
 
-        {/* Form */}
         <form className="flex flex-col gap-3">
           <input className="border p-2" placeholder="Tên" />
           <input className="border p-2" placeholder="Email" />

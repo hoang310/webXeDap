@@ -20,13 +20,11 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // HÀM MỚI: Thay đổi số lượng
   const updateQty = (id, newQty) => {
-    if (newQty < 1) return; // Không cho giảm xuống dưới 1
+    if (newQty < 1) return;
     setCart(prev => prev.map(item => item.id === id ? {...item, qty: newQty} : item));
   };
 
-  // HÀM MỚI: Xóa sản phẩm
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
   };

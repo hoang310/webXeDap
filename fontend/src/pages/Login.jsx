@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { loginAPI } from "../services/api";
-//import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 
@@ -13,7 +12,7 @@ function Login() {
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
 
-    const [isLoading, setIsLoading] = useState(false); // Thêm state này ở trên component
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +23,7 @@ function Login() {
         }
 
         setMessage('');
-        setIsLoading(true); // Bật trạng thái loading, disable nút submit
+        setIsLoading(true);
 
         try {
             const response = await loginAPI({ email, password });
