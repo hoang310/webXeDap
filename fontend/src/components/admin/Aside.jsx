@@ -26,11 +26,6 @@ function Aside() {
                 <li className="w-full px-4 py-3 border border-gray-200 rounded-lg dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center" onClick={() => navigate('/admin/quan-ly-nguoi-dung')}>Quản lý người dùng</li>
               </MenuItem>
 
-              <MenuItem title="Cài đặt" icon={<HiOutlineCog6Tooth />}>
-                <li>Cấu hình hệ thống</li>
-                <li>Thông tin cá nhân</li>
-              </MenuItem>
-
               <button 
                 onClick={() => navigate('/admin/thong-ke')} 
                 className="px-4 py-2 flex justify-center items-center gap-2"

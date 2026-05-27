@@ -13,9 +13,8 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Xử lý gửi đơn hàng ở đây (ví dụ gửi API)
     setOrderPlaced(true);
-    clearCart(); // Xóa giỏ hàng sau khi đặt xong
+    clearCart(); 
   };
 
   if (orderPlaced) {

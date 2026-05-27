@@ -1,8 +1,6 @@
-// controllers/reviewController.js
 
 const reviewService = require("../services/reviewService");
 
-// Create
 exports.createReview = async (req, res) => {
   try {
     const data = await reviewService.createReview(req.body);
@@ -12,7 +10,6 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Get all
 exports.getAllReviews = async (req, res) => {
   try {
     const data = await reviewService.getAllReviews();
@@ -22,7 +19,6 @@ exports.getAllReviews = async (req, res) => {
   }
 };
 
-// Get by product
 exports.getReviewsByProduct = async (req, res) => {
   try {
     const data = await reviewService.getReviewsByProduct(req.params.productId);
@@ -33,7 +29,6 @@ exports.getReviewsByProduct = async (req, res) => {
   }
 };
 
-// Get by user
 exports.getReviewsByUser = async (req, res) => {
   try {
     const data = await reviewService.getReviewsByUser(req.params.userId);
@@ -43,7 +38,6 @@ exports.getReviewsByUser = async (req, res) => {
   }
 };
 
-// Get by ID
 exports.getReviewById = async (req, res) => {
   try {
     const data = await reviewService.getReviewById(req.params.id);
@@ -54,7 +48,6 @@ exports.getReviewById = async (req, res) => {
   }
 };
 
-// Update
 exports.updateReview = async (req, res) => {
   try {
     const data = await reviewService.updateReview(req.params.id, req.body);
@@ -65,7 +58,6 @@ exports.updateReview = async (req, res) => {
   }
 };
 
-// Delete
 exports.deleteReview = async (req, res) => {
   try {
     const data = await reviewService.deleteReview(req.params.id);

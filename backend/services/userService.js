@@ -1,11 +1,9 @@
-// services/userService.js
 
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
-// Create (register)
 exports.createUser = async (data) => {
   const { password, ...rest } = data;
 
@@ -19,7 +17,6 @@ exports.createUser = async (data) => {
   return await user.save();
 };
 
-// Login
 exports.login = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) return null;
@@ -43,17 +40,14 @@ exports.login = async (email, password) => {
     };
 };
 
-// Get all
 exports.getAllUsers = async () => {
   return await User.find().select("-password");
 };
 
-// Get by ID
 exports.getUserById = async (id) => {
   return await User.findById(id).select("-password");
 };
 
-// Update
 exports.updateUser = async (id, data) => {
   if (data.password) {
     data.password = await bcrypt.hash(data.password, 10);
@@ -64,7 +58,6 @@ exports.updateUser = async (id, data) => {
   }).select("-password");
 };
 
-// Delete
 exports.deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };

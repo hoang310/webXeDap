@@ -1,8 +1,6 @@
-// controllers/orderController.js
 
 const orderService = require("../services/orderService");
 
-// Create
 exports.createOrder = async (req, res) => {
   try {
     const data = await orderService.createOrder(req.body);
@@ -12,7 +10,6 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// Get all
 exports.getAllOrders = async (req, res) => {
   try {
     const data = await orderService.getAllOrders(req.query);
@@ -22,7 +19,6 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-// Get by ID
 exports.getOrderById = async (req, res) => {
   try {
     const data = await orderService.getOrderById(req.params.id);
@@ -33,7 +29,6 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
-// Get by user
 exports.getOrdersByUser = async (req, res) => {
   try {
     const data = await orderService.getOrdersByUser(req.params.userId);
@@ -43,7 +38,6 @@ exports.getOrdersByUser = async (req, res) => {
   }
 };
 
-// Update status
 exports.updateOrderStatus = async (req, res) => {
   try {
     const data = await orderService.updateOrderStatus(
@@ -57,7 +51,6 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
-// Delete
 exports.deleteOrder = async (req, res) => {
   try {
     const data = await orderService.deleteOrder(req.params.id);

@@ -36,22 +36,22 @@ function Register() {
 
             <form onSubmit={handleSubmit} className="space-y-5 mb-2">
                 <div>
-                    <label className="block  mb-1">Họ và tên</label>
+                    <label className="block mb-1">Họ và tên</label>
                     <input name="name"  onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" placeholder='Nguyễn Văn A' type="text" />    
                 </div>  
 
                 <div>
-                    <label className="block  mb-1">Email</label>
+                    <label className="block mb-1">Email</label>
                     <input name="email" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" placeholder='a@gmail.com' type="text" />    
                 </div>  
 
                 <div>
-                    <label className="block  mb-1">Mật khẩu</label>
+                    <label className="block mb-1">Mật khẩu</label>
                     <input name="password" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" type="password" />    
                 </div>  
 
                 <div>
-                    <label className="block  mb-1">Xác nhận mật khẩu</label>
+                    <label className="block mb-1">Xác nhận mật khẩu</label>
                     <input className="w-full px-4 py-2 border rounded-lg" type="password" />    
                 </div>  
 

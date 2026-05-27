@@ -1,9 +1,8 @@
-// controllers/productController.js
+
 const path = require('path')
 const fs = require('fs')
 const productService = require("../services/productService"); 
 
-// Create product
 exports.createProduct = async (req, res) => {
   try {
 
@@ -41,7 +40,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Get all products
 exports.getAllProducts = async (req, res) => {
   try {
     const result = await productService.getAllProducts(req.query);
@@ -51,7 +49,6 @@ exports.getAllProducts = async (req, res) => {
   }
 }; 
 
-// Get product by ID
 exports.getProductById = async (req, res) => {
   try {
     const product = await productService.getProductById(req.params.id);
@@ -64,7 +61,6 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// Update product
 exports.updateProduct = async (req, res) => {
   try {
 
@@ -89,7 +85,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// Delete product
 exports.deleteProduct = async (req, res) => {
   try {
     const product = await productService.deleteProduct(req.params.id);
@@ -104,7 +99,6 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// Featured products
 exports.getFeaturedProducts = async (req, res) => {
   try {
     const products = await productService.getFeatured();
@@ -114,7 +108,6 @@ exports.getFeaturedProducts = async (req, res) => {
   }
 };
 
-// Newest products
 exports.getNewestProducts = async (req, res) => {
   try {
     const products = await productService.getNewest();
@@ -124,7 +117,6 @@ exports.getNewestProducts = async (req, res) => {
   }
 };
 
-// Best seller products
 exports.getBestSellerProducts = async (req, res) => {
   try {
     const products = await productService.getBestSeller();

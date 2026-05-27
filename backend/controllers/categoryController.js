@@ -1,8 +1,5 @@
-// controllers/categoryController.js
-
 const categoryService = require("../services/categoryService");
 
-// Create
 exports.createCategory = async (req, res) => {
   try {
     const data = await categoryService.createCategory(req.body);
@@ -12,7 +9,6 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-// Get all
 exports.getAllCategories = async (req, res) => {
   try {
     const data = await categoryService.getAllCategories();
@@ -22,7 +18,6 @@ exports.getAllCategories = async (req, res) => {
   }
 };
 
-// Get by ID
 exports.getCategoryById = async (req, res) => {
   try {
     const data = await categoryService.getCategoryById(req.params.id);
@@ -33,7 +28,6 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// Update
 exports.updateCategory = async (req, res) => {
   try {
     const data = await categoryService.updateCategory(req.params.id, req.body);
@@ -44,7 +38,6 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-// Delete
 exports.deleteCategory = async (req, res) => {
   try {
     const data = await categoryService.deleteCategory(req.params.id);

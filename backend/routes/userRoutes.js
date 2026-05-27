@@ -1,4 +1,4 @@
-// routes/userRoutes.js
+
 const { authMiddleware } = require("../middleware/authMiddleware");
 
 const express = require("express");

@@ -35,7 +35,7 @@ function Ai() {
 
         <div className="text-center mb-10">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            AI Product Generator
+            Trình tạo sản phẩm AI
           </h1>
           <p className="mt-3 text-lg text-slate-500">
             Tự động biến thông số kỹ thuật thô thành bài viết mô tả sản phẩm cuốn hút.

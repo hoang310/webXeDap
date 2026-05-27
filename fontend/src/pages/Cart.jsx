@@ -3,15 +3,15 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
-const Cart = () => {
-  // Lấy dữ liệu giỏ hàng và các hàm điều khiển từ Context
-  const { cart, updateQty, removeFromCart } = useContext(CartContext);
 
-  // Chuyển giá từ chuỗi "4.500.000đ" thành số 4500000 để tính toán
-const total = cart.reduce((sum, item) => {
-  const priceNumber = Number(String(item.price).replace(/[^0-9]/g, ""));
-  return sum + priceNumber * item.qty;
-}, 0);
+const Cart = () => {
+
+  const { cart, updateQty, removeFromCart } = useContext(CartContext);
+  const urlI = process.env.REACT_APP_IMAGE
+  const total = cart.reduce((sum, item) => {
+    const priceNumber = Number(String(item.price).replace(/[^0-9]/g, ""));
+    return sum + priceNumber * item.qty;
+  }, 0);
 
   if (cart.length === 0) {
     return (
@@ -36,27 +36,26 @@ const total = cart.reduce((sum, item) => {
         <div className="space-y-4">
           {cart.map((item) => (
             <div key={item.id} className="flex gap-4 border-b pb-4 items-center">
-              <img src={item.image} className="w-24 h-24 object-contain bg-gray-50" alt={item.name} />
+              <img src={`${urlI}${item.image}`} className="w-24 h-24 object-contain bg-gray-50" alt={item.name} />
 
               <div className="flex-1">
                 <h2 className="font-bold text-gray-800">{item.name}</h2>
                 <p className="text-red-600 font-semibold">{item.price.toLocaleString()}đ</p>
-                
-                {/* Bộ tăng giảm số lượng */}
+
                 <div className="flex items-center gap-2 mt-2">
-                  <button 
+                  <button
                     onClick={() => updateQty(item.id, item.qty - 1)}
                     className="px-2 bg-gray-200"
                   >-</button>
                   <span>{item.qty}</span>
-                  <button 
+                  <button
                     onClick={() => updateQty(item.id, item.qty + 1)}
                     className="px-2 bg-gray-200"
                   >+</button>
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => removeFromCart(item.id)}
                 className="text-gray-400 hover:text-red-600"
               >
@@ -70,7 +69,7 @@ const total = cart.reduce((sum, item) => {
           <h2 className="text-2xl font-bold text-gray-900">
             Tổng cộng: <span className="text-red-600">{total.toLocaleString()}đ</span>
           </h2>
-          
+
           <Link
             to="/thanh-toan"
             className="inline-block mt-4 bg-red-600 text-white px-8 py-3 font-bold hover:bg-black transition"

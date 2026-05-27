@@ -1,8 +1,6 @@
-// controllers/userController.js
 
 const userService = require("../services/userService");
 
-// Register
 exports.register = async (req, res) => {
   try {
     const user = await userService.createUser(req.body);
@@ -12,7 +10,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// Login
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -28,7 +25,6 @@ exports.login = async (req, res) => {
   }
 };
 
-// Get all
 exports.getAllUsers = async (req, res) => {
   try {
     const data = await userService.getAllUsers();
@@ -38,7 +34,6 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-// Get by ID
 exports.getUserById = async (req, res) => {
   try {
     const data = await userService.getUserById(req.params.id);
@@ -49,7 +44,6 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Update
 exports.updateUser = async (req, res) => {
   try {
     const data = await userService.updateUser(req.params.id, req.body);
@@ -60,7 +54,6 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// Delete
 exports.deleteUser = async (req, res) => {
   try {
     const data = await userService.deleteUser(req.params.id);
