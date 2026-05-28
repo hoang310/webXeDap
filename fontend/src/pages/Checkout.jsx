@@ -21,7 +21,7 @@ const Checkout = () => {
     return (
       <div className="text-center p-20">
         <h2 className="text-3xl font-bold text-green-600 mb-4">ĐẶT HÀNG THÀNH CÔNG!</h2>
-        <p>Cảm ơn bạn đã tin tưởng Xe Đạp Thống Nhất. Chúng tôi sẽ liên hệ sớm nhất.</p>
+        <p>Cảm ơn bạn đã tin tưởng HHBIKE. Chúng tôi sẽ liên hệ sớm nhất.</p>
         <button onClick={() => window.location.href = '/'} className="mt-6 bg-red-600 text-white px-6 py-2">Tiếp tục mua sắm</button>
       </div>
     );
