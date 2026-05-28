@@ -44,7 +44,6 @@ function CreateOrUpdateOrder() {
     e.preventDefault();
     const orderData = {
       status: form.status,
-      // Nếu API của bạn bắt buộc gửi toàn bộ object, bạn có thể để: ...form
     };
 
     try {
